@@ -14,7 +14,7 @@ if (config.USE_LOG_FILE) {
         level: "error",
         maxsize: 1024 * 1024,
         maxFiles: 1,
-      }),
+      } as any),
       new transports.File({
         filename: path.resolve("logs/logger.log"),
         maxsize: 1024 * 1024,
@@ -37,7 +37,7 @@ const levelColors: { [key: string]: string } = {
 };
 
 // 自定义控制台日志输出格式
-const consoleFormat = format.printf(({ level, message, timestamp, stack }) => {
+const consoleFormat = format.printf(({ level, message, timestamp, stack }: any) => {
   // 获取原始日志级别
   const originalLevel = Object.keys(levelColors).find((lvl) => level.includes(lvl)) || "default";
   const colorLevel = levelColors[originalLevel] || levelColors.default;
@@ -71,7 +71,7 @@ if (process.env.NODE_ENV !== "production") {
     logger.add(
       new transports.Console({
         format: format.combine(format.colorize(), consoleFormat),
-      }),
+      } as any),
     );
   } catch (error) {
     console.error("Failed to add console transport. Console logging will be skipped.", error);
